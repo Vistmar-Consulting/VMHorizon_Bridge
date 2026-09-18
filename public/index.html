@@ -1,0 +1,70 @@
+<!doctype html>
+<!--
+  The Bridge — Horizon's command deck. v0.1.0 · 2026-09-18 · AD
+  Horizon tickets live in VMManagement's Firestore (items, category "horizon", org "vistamar").
+  Hosted on Vercel from VMHorizon_Bridge; config.js is written at build time (build-config.mjs). Design: local/design/BRIDGE-TICKETS-DESIGN-2026-09-18.md
+  Changelog
+    0.2.0 · 2026-09-18 · AD · Hosted on Vercel.
+    0.1.0 · 2026-09-18 · AD · First version: sign-in, Mine view, status, subitems, history, new ticket.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Bridge</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="bridge.css">
+</head>
+<body>
+<header class="deck">
+  <div class="brand"><span class="mark">◈</span> THE BRIDGE <span class="sub">Horizon</span></div>
+  <div id="env" class="env"></div>
+  <div class="who"><span id="who"></span><button id="signout" class="ghost" hidden>Sign out</button></div>
+</header>
+
+<main>
+  <section id="signin" class="panel signin" hidden>
+    <h1>Sign in to the Bridge</h1>
+    <p class="muted">Your Vistamar Google account — the same one as the Management app.</p>
+    <button id="google" class="primary">Sign in with Google</button>
+    <form id="emuform" hidden>
+      <p class="muted">Emulator: seeded users, password <code>bridge-dev</code>.</p>
+      <input id="emuemail" type="email" value="adeemer@vistamarconsulting.com" aria-label="Email">
+      <input id="emupass" type="password" value="bridge-dev" aria-label="Password">
+      <button class="primary" type="submit">Sign in</button>
+    </form>
+    <p id="signinerr" class="err"></p>
+  </section>
+
+  <section id="app" hidden>
+    <div class="bar">
+      <div>
+        <h1>My tickets</h1>
+        <p id="summary" class="muted"></p>
+      </div>
+      <button id="newbtn" class="primary">+ New ticket</button>
+    </div>
+
+    <form id="newform" class="panel newform" hidden>
+      <input id="ntitle" placeholder="What needs doing" required aria-label="Title">
+      <input id="nentity" placeholder="entity (client slug or horizon)" value="horizon" aria-label="Entity">
+      <select id="nassignee" aria-label="Assignee"></select>
+      <select id="npriority" aria-label="Priority">
+        <option value="">No priority</option><option value="1">Critical</option>
+        <option value="2">High</option><option value="3">Medium</option><option value="4">Low</option>
+      </select>
+      <button class="primary" type="submit">Create</button>
+      <button class="ghost" type="button" id="newcancel">Cancel</button>
+    </form>
+
+    <div id="groups"></div>
+    <p id="err" class="err"></p>
+  </section>
+</main>
+
+<script src="/config.js"></script>
+<script type="module" src="bridge.js"></script>
+</body>
+</html>
